@@ -16,9 +16,10 @@ class ControllerPath implements SubscriberInterface
     /**
      * Register the backend controller
      *
-     * @param   \Enlight_Event_EventArgs $args
-     * @return  string
-     * @Enlight\Event Enlight_Controller_Dispatcher_ControllerPath_Backend_dotmailerEmailMarketing     */
+     * @param         \Enlight_Event_EventArgs $args
+     * @return        string
+     * @Enlight\Event Enlight_Controller_Dispatcher_ControllerPath_Backend_dotmailerEmailMarketing     
+*/
     public function onGetControllerPathBackend(\Enlight_Event_EventArgs $args)
     {
         return __DIR__ . '/../Controllers/Backend/dotmailerEmailMarketing.php';

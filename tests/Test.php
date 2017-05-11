@@ -25,7 +25,9 @@ class PluginTest extends Shopware\Components\Test\Plugin\TestCase
 
     public function testCanCreateInstance()
     {
-        /** @var Shopware_Plugins_Frontend_dotmailerEmailMarketing_Bootstrap $plugin */
+        /**
+ * @var Shopware_Plugins_Frontend_dotmailerEmailMarketing_Bootstrap $plugin 
+*/
         $plugin = Shopware()->Plugins()->Frontend()->dotmailerEmailMarketing();
 
         $this->assertInstanceOf('Shopware_Plugins_Frontend_dotmailerEmailMarketing_Bootstrap', $plugin);
