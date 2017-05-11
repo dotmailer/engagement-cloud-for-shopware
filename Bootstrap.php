@@ -59,7 +59,6 @@ class Shopware_Plugins_Frontend_dotmailerEmailMarketing_Bootstrap extends Shopwa
             throw new \RuntimeException('At least Shopware 4.3.0 is required');
         }
 
-
         $this->createMenuItem(array(
             'label' => 'dotmailerEmailMarketing',
             'controller' => 'dotmailerEmailMarketing',
