@@ -72,8 +72,6 @@ class Shopware_Plugins_Frontend_dotmailerEmailMarketing_Bootstrap extends Shopwa
             'onStartDispatch'
         );
 
-
-
         $this->updateSchema();
         return array('success' => true, 'invalidateCache' => array('frontend', 'backend'));
     }
