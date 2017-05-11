@@ -58,14 +58,14 @@ class Shopware_Plugins_Frontend_dotmailerEmailMarketing_Bootstrap extends Shopwa
         if (!$this->assertMinimumVersion('4.3.0')) {
             throw new \RuntimeException('At least Shopware 4.3.0 is required');
         }
-		
-		$this->createMenuItem(array(
-			'label' => 'dotmailer Email Marketing',
-			'onclick' => 'window.open("https://my.dotmailer.com", "_blank");',
-			'class' => 'sprite-star',
-			'active' => 1,
-			'parent' => $this->Menu()->findOneBy(['label' => 'Marketing'])
-		));
+
+    	$this->createMenuItem(array(
+        	'label' => 'dotmailer Email Marketing',
+        	'onclick' => 'window.open("https://my.dotmailer.com", "_blank");',
+        	'class' => 'sprite-star',
+        	'active' => 1,
+        	'parent' => $this->Menu()->findOneBy(['label' => 'Marketing'])
+        ));
 
         $this->subscribeEvent(
             'Enlight_Controller_Front_DispatchLoopStartup',
@@ -147,8 +147,4 @@ class Shopware_Plugins_Frontend_dotmailerEmailMarketing_Bootstrap extends Shopwa
             $this->Path()
         );
     }
-
-
-
-
 }
