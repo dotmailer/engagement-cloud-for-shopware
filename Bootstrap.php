@@ -143,4 +143,3 @@ class Shopware_Plugins_Backend_dotmailerEmailMarketing_Bootstrap extends Shopwar
         );
     }
 }
-
