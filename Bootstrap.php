@@ -17,9 +17,9 @@
  *
  * - uninstall: Triggered when the plugin is reinstalled or uninstalled. Clean up your tables here.
  */
-class Shopware_Plugins_Frontend_dotmailerEmailMarketing_Bootstrap extends Shopware_Components_Plugin_Bootstrap
+class Shopware_Plugins_Backend_dotmailerEmailMarketing_Bootstrap extends Shopware_Components_Plugin_Bootstrap
 {
-    public function getVersion() 
+    public function getVersion()
     {
         $info = json_decode(file_get_contents(__DIR__ . DIRECTORY_SEPARATOR .'plugin.json'), true);
         if ($info) {
@@ -31,7 +31,7 @@ class Shopware_Plugins_Frontend_dotmailerEmailMarketing_Bootstrap extends Shopwa
 
     public function getLabel()
     {
-        return 'dotmailerEmailMarketing';
+        return 'dotmailer Email Marketing';
     }
 
     public function uninstall()
@@ -60,6 +60,13 @@ class Shopware_Plugins_Frontend_dotmailerEmailMarketing_Bootstrap extends Shopwa
             throw new \RuntimeException('At least Shopware 4.3.0 is required');
         }
 
+        $this->subscribeEvent(
+            'Enlight_Controller_Front_DispatchLoopStartup',
+            'onStartDispatch'
+        );
+
+        $this->updateSchema();
+
         $this->createMenuItem(
             array(
             'label' => 'dotmailer Email Marketing',
@@ -70,12 +77,6 @@ class Shopware_Plugins_Frontend_dotmailerEmailMarketing_Bootstrap extends Shopwa
             )
         );
 
-        $this->subscribeEvent(
-            'Enlight_Controller_Front_DispatchLoopStartup',
-            'onStartDispatch'
-        );
-
-        $this->updateSchema();
         return array('success' => true, 'invalidateCache' => array('frontend', 'backend'));
     }
 
@@ -111,17 +112,9 @@ class Shopware_Plugins_Frontend_dotmailerEmailMarketing_Bootstrap extends Shopwa
     public function onStartDispatch(Enlight_Event_EventArgs $args)
     {
         $this->registerMyComponents();
-        $this->registerCustomModels();        $this->registerMyTemplateDir();
+        $this->registerCustomModels();
+        $this->registerMyTemplateDir();
         $this->registerMySnippets();
-
-        $subscribers = array(
-            new \Shopware\dotmailerEmailMarketing\Subscriber\ControllerPath(),
-            new \Shopware\dotmailerEmailMarketing\Subscriber\Frontend()
-        );
-
-        foreach ($subscribers as $subscriber) {
-            $this->Application()->Events()->addSubscriber($subscriber);
-        }
     }
 
     /**
