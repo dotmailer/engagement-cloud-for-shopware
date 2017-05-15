@@ -1,5 +1,5 @@
-# dotmailerEmailMarketing
-## About dotmailerEmailMarketing
+# DotmailerEmailMarketing
+## About DotmailerEmailMarketing
 This skeleton contains a License file, fileheader and a basic README.
 
 ## License

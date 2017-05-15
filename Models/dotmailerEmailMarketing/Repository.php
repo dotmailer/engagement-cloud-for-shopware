@@ -1,6 +1,6 @@
 <?php
 
-namespace Shopware\CustomModels\dotmailerEmailMarketing;
+namespace Shopware\CustomModels\DotmailerEmailMarketing;
 
 use Shopware\Components\Model\ModelRepository;
 
@@ -8,7 +8,7 @@ class Repository extends ModelRepository
 {
 
     /**
-     * Returns an instance of the \Doctrine\ORM\Query object which selects a list of dotmailerEmailMarketing
+     * Returns an instance of the \Doctrine\ORM\Query object which selects a list of DotmailerEmailMarketing
      *
      * @param  null   $filter
      * @param  null   $orderBy

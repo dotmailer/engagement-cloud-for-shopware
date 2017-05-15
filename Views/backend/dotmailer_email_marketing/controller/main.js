@@ -1,5 +1,5 @@
 
-Ext.define('Shopware.apps.dotmailerEmailMarketing.controller.Main', {
+Ext.define('Shopware.apps.DotmailerEmailMarketing.controller.Main', {
     extend: 'Enlight.app.Controller',
 
     init: function() {

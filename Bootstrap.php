@@ -1,5 +1,6 @@
 <?php
 
+namespace DotmailerEmailMarketing;
 
 /**
  * The Bootstrap class is the main entry point of any shopware plugin.
@@ -17,7 +18,7 @@
  *
  * - uninstall: Triggered when the plugin is reinstalled or uninstalled. Clean up your tables here.
  */
-class Shopware_Plugins_Backend_dotmailerEmailMarketing_Bootstrap extends Shopware_Components_Plugin_Bootstrap
+class Shopware_Plugins_Backend_DotmailerEmailMarketing_Bootstrap extends Shopware_Components_Plugin_Bootstrap
 {
     public function getVersion()
     {
@@ -42,7 +43,7 @@ class Shopware_Plugins_Backend_dotmailerEmailMarketing_Bootstrap extends Shopwar
         $tool = new \Doctrine\ORM\Tools\SchemaTool($em);
 
         $classes = array(
-            $em->getClassMetadata('Shopware\CustomModels\dotmailerEmailMarketing\dotmailerEmailMarketing')
+            $em->getClassMetadata('Shopware\CustomModels\DotmailerEmailMarketing\DotmailerEmailMarketing')
         );
         $tool->dropSchema($classes);
 
@@ -80,6 +81,15 @@ class Shopware_Plugins_Backend_dotmailerEmailMarketing_Bootstrap extends Shopwar
         return array('success' => true, 'invalidateCache' => array('frontend', 'backend'));
     }
 
+    public function enable()
+    {
+        $dotmailer_email_marketing = new DotmailerEmailMarketing();
+        $dotmailer_email_marketing->plugin_ID = 'Test';
+        $dotmailer_email_marketing->save();
+        
+        return true;
+    }
+
     /**
      * Creates the database scheme from an existing doctrine model.
      *
@@ -93,7 +103,7 @@ class Shopware_Plugins_Backend_dotmailerEmailMarketing_Bootstrap extends Shopwar
         $tool = new \Doctrine\ORM\Tools\SchemaTool($em);
 
         $classes = array(
-            $em->getClassMetadata('Shopware\CustomModels\dotmailerEmailMarketing\dotmailerEmailMarketing')
+            $em->getClassMetadata('Shopware\CustomModels\DotmailerEmailMarketing\DotmailerEmailMarketing')
         );
 
         try {
@@ -138,7 +148,7 @@ class Shopware_Plugins_Backend_dotmailerEmailMarketing_Bootstrap extends Shopwar
     public function registerMyComponents()
     {
         $this->Application()->Loader()->registerNamespace(
-            'Shopware\dotmailerEmailMarketing',
+            'Shopware\DotmailerEmailMarketing',
             $this->Path()
         );
     }
