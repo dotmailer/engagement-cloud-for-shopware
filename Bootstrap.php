@@ -1,6 +1,6 @@
 <?php
 
-namespace DotmailerEmailMarketing;
+use Shopware\CustomModels\DotmailerEmailMarketing\DotmailerEmailMarketing;
 
 /**
  * The Bootstrap class is the main entry point of any shopware plugin.
@@ -66,13 +66,18 @@ class Shopware_Plugins_Backend_DotmailerEmailMarketing_Bootstrap extends Shopwar
             'onStartDispatch'
         );
 
+        $this->subscribeEvent(
+            'Enlight_Controller_Action_PostDispatch_Backend_Index',
+            'addTemplateDir'
+        );
+
         $this->updateSchema();
 
         $this->createMenuItem(
             array(
             'label' => 'dotmailer Email Marketing',
             'onclick' => 'window.open("https://my.dotmailer.com", "_blank");',
-            'class' => 'sprite-star',
+            'class' => 'sprite-dotmailer-email-marketing',
             'active' => 1,
             'parent' => $this->Menu()->findOneBy(['label' => 'Marketing'])
             )
@@ -81,11 +86,29 @@ class Shopware_Plugins_Backend_DotmailerEmailMarketing_Bootstrap extends Shopwar
         return array('success' => true, 'invalidateCache' => array('frontend', 'backend'));
     }
 
+    public function addTemplateDir(Enlight_Event_EventArgs $args)
+    {
+        /** @var \Enlight_Controller_Action $controller */
+        $controller = $args->getSubject();
+        $view = $controller->View();
+
+        if ($view->hasTemplate()) {
+            $view->addTemplateDir($this->Path() . 'Views/');
+            $view->extendsTemplate('backend/dotmailer_email_marketing/menuitem.tpl');
+        }
+    }
+
     public function enable()
     {
+        require __DIR__ . '\Models\DotmailerEmailMarketing\DotmailerEmailMarketing.php';
         $dotmailer_email_marketing = new DotmailerEmailMarketing();
-        $dotmailer_email_marketing->plugin_ID = 'Test';
-        $dotmailer_email_marketing->save();
+
+        $length = 128;
+        $crypto_strong = true;
+        $dotmailer_email_marketing->setPluginID(bin2hex( openssl_random_pseudo_bytes( $length, $crypto_strong ) ) );
+
+        Shopware()->Models()->persist($dotmailer_email_marketing);
+        Shopware()->Models()->flush();
         
         return true;
     }

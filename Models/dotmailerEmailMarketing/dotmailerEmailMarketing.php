@@ -15,6 +15,7 @@ class DotmailerEmailMarketing extends ModelEntity
      *
      * @var string $plugin_id
      *
+     * @ORM\Id
      * @ORM\Column(name="plugin_id", type="string", nullable=false)
      */
     private $plugin_id;
