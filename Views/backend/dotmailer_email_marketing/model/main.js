@@ -1,11 +1,11 @@
 
-Ext.define('Shopware.apps.dotmailerEmailMarketing.model.Main', {
+Ext.define('Shopware.apps.DotmailerEmailMarketing.model.Main', {
     extend: 'Shopware.data.Model',
 
     configure: function() {
         return {
-            controller: 'dotmailerEmailMarketing',
-            detail: 'Shopware.apps.dotmailerEmailMarketing.view.detail.Container'
+            controller: 'DotmailerEmailMarketing',
+            detail: 'Shopware.apps.DotmailerEmailMarketing.view.detail.Container'
         };
     },
 

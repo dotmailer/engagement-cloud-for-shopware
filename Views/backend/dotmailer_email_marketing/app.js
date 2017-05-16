@@ -1,8 +1,8 @@
 
-Ext.define('Shopware.apps.dotmailerEmailMarketing', {
+Ext.define('Shopware.apps.DotmailerEmailMarketing', {
     extend: 'Enlight.app.SubApplication',
 
-    name:'Shopware.apps.dotmailerEmailMarketing',
+    name:'Shopware.apps.DotmailerEmailMarketing',
 
     loadPath: '{url action=load}',
     bulkLoad: true,
