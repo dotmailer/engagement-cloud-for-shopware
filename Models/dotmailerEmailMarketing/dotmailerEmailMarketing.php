@@ -6,16 +6,25 @@ use Shopware\Components\Model\ModelEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\Entity
  * @ORM\Table(name="s_plugin_dotmailer_email_marketing")
- * @ORM\Entity(repositoryClass="Repository")
  */
 class DotmailerEmailMarketing extends ModelEntity
 {
     /**
      *
-     * @var string $plugin_id
+     * @var integer $id
      *
      * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     */
+    private $id;
+
+    /**
+     *
+     * @var string $plugin_id
+     *
      * @ORM\Column(name="plugin_id", type="string", nullable=false)
      */
     private $plugin_id;
