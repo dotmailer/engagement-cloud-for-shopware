@@ -20,6 +20,18 @@ use Shopware\CustomModels\DotmailerEmailMarketing\DotmailerEmailMarketing;
  */
 class Shopware_Plugins_Backend_DotmailerEmailMarketing_Bootstrap extends Shopware_Components_Plugin_Bootstrap
 {
+    public static function getWebAppUrl()
+    {
+        //return 'https://login.dotmailer.com';
+        return 'https://debug-webapp.dotmailer.internal';
+    }
+
+    public static function getTrackingSiteUrl()
+    {
+        //return 'https://t.trackedlink.net';
+        return 'http://debug-tracking.dotmailer.internal';
+    }
+
     public function getVersion()
     {
         $info = json_decode(file_get_contents(__DIR__ . DIRECTORY_SEPARATOR .'plugin.json'), true);
@@ -61,6 +73,8 @@ class Shopware_Plugins_Backend_DotmailerEmailMarketing_Bootstrap extends Shopwar
             throw new \RuntimeException('At least Shopware 4.3.0 is required');
         }
 
+        $this->registerController('backend', 'dotmailer');
+
         $this->subscribeEvent(
             'Enlight_Controller_Front_DispatchLoopStartup',
             'onStartDispatch'
@@ -68,15 +82,17 @@ class Shopware_Plugins_Backend_DotmailerEmailMarketing_Bootstrap extends Shopwar
 
         $this->subscribeEvent(
             'Enlight_Controller_Action_PostDispatch_Backend_Index',
-            'addTemplateDir'
+            'extendTemplate'
         );
 
         $this->updateSchema();
+        $this->createPluginID();
+        $this->addMenuItem();
 
         return array('success' => true, 'invalidateCache' => array('frontend', 'backend'));
     }
 
-    public function addTemplateDir(Enlight_Event_EventArgs $args)
+    public function extendTemplate(Enlight_Event_EventArgs $args)
     {
         /** @var \Enlight_Controller_Action $controller */
         $controller = $args->getSubject();
@@ -88,6 +104,54 @@ class Shopware_Plugins_Backend_DotmailerEmailMarketing_Bootstrap extends Shopwar
         }
     }
 
+    public function createPluginID()
+    {
+        $plugin_id = null;
+        $em = $this->Application()->Models();
+        $settings = $em->find('Shopware\CustomModels\DotmailerEmailMarketing\DotmailerEmailMarketing', 1);
+        
+        if ($settings !== null) {
+            $plugin_id = $settings->getPluginID();
+        }
+
+        if ($plugin_id === null) {
+            $dotmailer_email_marketing = new DotmailerEmailMarketing();
+
+            $length = 128;
+            $crypto_strong = true;
+            $dotmailer_email_marketing->setPluginID(bin2hex(openssl_random_pseudo_bytes($length, $crypto_strong)));
+
+            $em->persist($dotmailer_email_marketing);
+            $em->flush();
+        }
+    }
+
+    public function getPluginID()
+    {
+        require __DIR__ . '\Models\DotmailerEmailMarketing\DotmailerEmailMarketing.php';
+
+        $em = $this->Application()->Models();
+        $settings = $em->find('Shopware\CustomModels\DotmailerEmailMarketing\DotmailerEmailMarketing', 1);
+        
+        return $settings !== null ? $settings->getPluginID() : die();
+    }
+
+    public function addMenuItem()
+    {
+        $em = $this->Application()->Models();
+        $url = $em->find('Shopware\Models\Shop\Shop', 1)->getBasePath() . '/backend/dotmailer/connect';
+
+        $this->createMenuItem(
+            array(
+            'label' => 'dotmailer Email Marketing',
+            'onclick' => 'window.open("' . $url . '", "_blank")',
+            'class' => 'sprite-dotmailer-email-marketing',
+            'active' => 1,
+            'parent' => $this->Menu()->findOneBy(['label' => 'Marketing'])
+            )
+        );
+    }
+
     /**
      * Enable plugin method
      *
@@ -95,43 +159,10 @@ class Shopware_Plugins_Backend_DotmailerEmailMarketing_Bootstrap extends Shopwar
      */
     public function enable()
     {
-        $em = $this->Application()->Models();
-        $plugin_id = $em->find('Shopware\CustomModels\DotmailerEmailMarketing', 1)->plugin_id;
-
-        if ($plugin_id === null) {
-            require __DIR__ . '\Models\DotmailerEmailMarketing\DotmailerEmailMarketing.php';
-            $dotmailer_email_marketing = new DotmailerEmailMarketing();
-
-            $length = 128;
-            $crypto_strong = true;
-            $dotmailer_email_marketing
-                ->setPluginID( bin2hex( openssl_random_pseudo_bytes( $length, $crypto_strong ) ) );
-
-            $em->persist($dotmailer_email_marketing);
-            $em->flush();
-
-            $plugin_id = $dotmailer_email_marketing->plugin_id;
-        }
-
-        $store = $em->find('Shopware\Models\Shop\Shop', 1);
-        $store_url = $store->host . $store->base_path;
-        $bridge_url = $store_url . '/bridge2cart/bridge.php';
-        $store_root = $_SERVER['DOCUMENT_ROOT'] . $store->base_path;
-
-        $url = "https://debug-webapp.dotmailer.internal/shopware/connect?storename=$store->name&storeurl=$store_url&bridgeUrl=$bridge_url&storeroot=&pluginID=$plugin_id";
-
-        $this->createMenuItem(
-            array(
-            'label' => 'dotmailer Email Marketing',
-            'onclick' => 'window.open(' . "$url" . ', "_blank");',
-            'class' => 'sprite-dotmailer-email-marketing',
-            'active' => 1,
-            'parent' => $this->Menu()->findOneBy(['label' => 'Marketing'])
-            )
-        );
-        
-        $post = curl_init("http://debug-tracking.dotmailer.internal/e/shopware/enable?pluginid=$plugin_id");
+        $post = curl_init(self::getTrackingSiteUrl() .  '/e/shopware/enable?pluginid=' . $this->getPluginID());
+        curl_setopt($post, CURLOPT_POST, true);
         curl_exec($post);
+        curl_close($post);
         
         return true;
     }
@@ -143,7 +174,7 @@ class Shopware_Plugins_Backend_DotmailerEmailMarketing_Bootstrap extends Shopwar
      */
     public function disable()
     {
-        return !empty($this->info->capabilities['enable']);
+        return true;
     }
 
     /**
