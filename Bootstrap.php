@@ -49,8 +49,13 @@ class Shopware_Plugins_Backend_DotmailerEmailMarketing_Bootstrap extends Shopwar
 
     public function uninstall()
     {
-        $this->registerCustomModels();
+        $post = curl_init(self::getTrackingSiteUrl() .  '/e/shopware/disable?pluginid=' . $this->getPluginID());
+        curl_setopt($post, CURLOPT_POST, true);
+        curl_exec($post);
+        curl_close($post);
 
+        $this->registerCustomModels();
+        
         $em = $this->Application()->Models();
         $tool = new \Doctrine\ORM\Tools\SchemaTool($em);
 
@@ -174,6 +179,11 @@ class Shopware_Plugins_Backend_DotmailerEmailMarketing_Bootstrap extends Shopwar
      */
     public function disable()
     {
+        $post = curl_init(self::getTrackingSiteUrl() .  '/e/shopware/disable?pluginid=' . $this->getPluginID());
+        curl_setopt($post, CURLOPT_POST, true);
+        curl_exec($post);
+        curl_close($post);
+        
         return true;
     }
 
