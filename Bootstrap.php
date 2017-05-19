@@ -49,11 +49,8 @@ class Shopware_Plugins_Backend_DotmailerEmailMarketing_Bootstrap extends Shopwar
 
     public function uninstall()
     {
-        $post = curl_init(self::getTrackingSiteUrl() .  '/e/shopware/disable?pluginid=' . $this->getPluginID());
-        curl_setopt($post, CURLOPT_POST, true);
-        curl_exec($post);
-        curl_close($post);
-
+        $this->postToDotmailer('uninstall');
+        
         $this->registerCustomModels();
         
         $em = $this->Application()->Models();
@@ -133,7 +130,7 @@ class Shopware_Plugins_Backend_DotmailerEmailMarketing_Bootstrap extends Shopwar
 
     public function getPluginID()
     {
-        require __DIR__ . '\Models\DotmailerEmailMarketing\DotmailerEmailMarketing.php';
+        require_once __DIR__ . '\Models\DotmailerEmailMarketing\DotmailerEmailMarketing.php';
 
         $em = $this->Application()->Models();
         $settings = $em->find('Shopware\CustomModels\DotmailerEmailMarketing\DotmailerEmailMarketing', 1);
@@ -164,10 +161,7 @@ class Shopware_Plugins_Backend_DotmailerEmailMarketing_Bootstrap extends Shopwar
      */
     public function enable()
     {
-        $post = curl_init(self::getTrackingSiteUrl() .  '/e/shopware/enable?pluginid=' . $this->getPluginID());
-        curl_setopt($post, CURLOPT_POST, true);
-        curl_exec($post);
-        curl_close($post);
+        $this->postToDotmailer('enable');
         
         return true;
     }
@@ -179,12 +173,25 @@ class Shopware_Plugins_Backend_DotmailerEmailMarketing_Bootstrap extends Shopwar
      */
     public function disable()
     {
-        $post = curl_init(self::getTrackingSiteUrl() .  '/e/shopware/disable?pluginid=' . $this->getPluginID());
-        curl_setopt($post, CURLOPT_POST, true);
-        curl_exec($post);
-        curl_close($post);
+        $this->postToDotmailer('disable');
         
         return true;
+    }
+
+    public function postToDotmailer($action)
+    {
+        $url = self::getTrackingSiteUrl() .  '/e/shopware/' . $action;
+        $data = array(
+            'pluginid' => $this->getPluginID()
+        );
+
+        $post = curl_init($url);
+
+        curl_setopt($post, CURLOPT_POST, 1);
+        curl_setopt($post, CURLOPT_POSTFIELDS, http_build_query($data));
+
+        curl_exec($post);
+        curl_close($post);
     }
 
     /**
