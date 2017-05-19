@@ -18,11 +18,17 @@ class Shopware_Controllers_Backend_Dotmailer extends Shopware_Controllers_Backen
 
         $plugin_id = $settings !== null ? $settings->getPluginID() : die();
         
+        $isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ||
+                    $_SERVER['SERVER_PORT'] == 443 ||
+                    (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] !== 'off');
+
+        $schema = $isHttps ? 'https://' : 'http://';
+        
         $connection_query = http_build_query(
             array(
                 'storename' => $store->getName(),
-                'storeurl' => $store->getHost() . $store->getBasePath(),
-                'bridgeurl' => $store->getHost() . $store->getBasePath() . '/bridge2cart/bridge.php',
+                'storeurl' => $schema . $store->getHost() . $store->getBasePath(),
+                'bridgeurl' => $schema . $store->getHost() . $store->getBasePath() . '/bridge2cart/bridge.php',
                 'storeroot' => $_SERVER['DOCUMENT_ROOT'] . $store->getBasePath(),
                 'pluginid' => $plugin_id)
         );
