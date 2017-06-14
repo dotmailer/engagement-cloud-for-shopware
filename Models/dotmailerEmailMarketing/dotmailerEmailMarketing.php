@@ -1,55 +1,47 @@
 <?php
 
-namespace Shopware\CustomModels\dotmailerEmailMarketing;
+namespace Shopware\CustomModels\DotmailerEmailMarketing;
 
 use Shopware\Components\Model\ModelEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\Entity
  * @ORM\Table(name="s_plugin_dotmailer_email_marketing")
- * @ORM\Entity(repositoryClass="Repository")
  */
-class dotmailerEmailMarketing extends ModelEntity
+class DotmailerEmailMarketing extends ModelEntity
 {
     /**
-     * Primary Key - autoincrement value
      *
      * @var integer $id
      *
-     * @ORM\Column(name="id",                   type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue
+     * @ORM\Column(name="id", type="integer", nullable=false)
      */
     private $id;
 
     /**
-     * @var string $name
      *
-     * @ORM\Column(name="name", type="string", nullable=false)
+     * @var string $plugin_id
+     *
+     * @ORM\Column(name="plugin_id", type="string", nullable=false)
      */
-    private $name;
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+    private $plugin_id;
 
     /**
      * return string
      */
-    public function getName()
+    public function getPluginID()
     {
-        return $this->name;
+        return $this->plugin_id;
     }
 
     /**
-     * @param $name string
+     * @param $plugin_id string
      */
-    public function setName($name)
+    public function setPluginID($plugin_id)
     {
-        $this->name = $name;
+        $this->plugin_id = $plugin_id;
     }
 }

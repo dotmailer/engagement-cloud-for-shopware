@@ -1,5 +1,6 @@
 <?php
 
+use Shopware\CustomModels\DotmailerEmailMarketing\DotmailerEmailMarketing;
 
 /**
  * The Bootstrap class is the main entry point of any shopware plugin.
@@ -17,8 +18,20 @@
  *
  * - uninstall: Triggered when the plugin is reinstalled or uninstalled. Clean up your tables here.
  */
-class Shopware_Plugins_Backend_dotmailerEmailMarketing_Bootstrap extends Shopware_Components_Plugin_Bootstrap
+class Shopware_Plugins_Backend_DotmailerEmailMarketing_Bootstrap extends Shopware_Components_Plugin_Bootstrap
 {
+    public static function getWebAppUrl()
+    {
+        //return 'https://login.dotmailer.com';
+        return 'https://debug-webapp.dotmailer.internal';
+    }
+
+    public static function getTrackingSiteUrl()
+    {
+        //return 'https://t.trackedlink.net';
+        return 'http://debug-tracking.dotmailer.internal';
+    }
+
     public function getVersion()
     {
         $info = json_decode(file_get_contents(__DIR__ . DIRECTORY_SEPARATOR .'plugin.json'), true);
@@ -36,13 +49,15 @@ class Shopware_Plugins_Backend_dotmailerEmailMarketing_Bootstrap extends Shopwar
 
     public function uninstall()
     {
+        $this->postToDotmailer('uninstall');
+        
         $this->registerCustomModels();
-
+        
         $em = $this->Application()->Models();
         $tool = new \Doctrine\ORM\Tools\SchemaTool($em);
 
         $classes = array(
-            $em->getClassMetadata('Shopware\CustomModels\dotmailerEmailMarketing\dotmailerEmailMarketing')
+            $em->getClassMetadata('Shopware\CustomModels\DotmailerEmailMarketing\DotmailerEmailMarketing')
         );
         $tool->dropSchema($classes);
 
@@ -60,24 +75,123 @@ class Shopware_Plugins_Backend_dotmailerEmailMarketing_Bootstrap extends Shopwar
             throw new \RuntimeException('At least Shopware 4.3.0 is required');
         }
 
+        $this->registerController('backend', 'dotmailer');
+
         $this->subscribeEvent(
             'Enlight_Controller_Front_DispatchLoopStartup',
             'onStartDispatch'
         );
 
+        $this->subscribeEvent(
+            'Enlight_Controller_Action_PostDispatch_Backend_Index',
+            'extendTemplate'
+        );
+
         $this->updateSchema();
+        $this->createPluginID();
+        $this->addMenuItem();
+
+        return array('success' => true, 'invalidateCache' => array('frontend', 'backend'));
+    }
+
+    public function extendTemplate(Enlight_Event_EventArgs $args)
+    {
+        /** @var \Enlight_Controller_Action $controller */
+        $controller = $args->getSubject();
+        $view = $controller->View();
+
+        if ($view->hasTemplate()) {
+            $view->addTemplateDir($this->Path() . 'Views/');
+            $view->extendsTemplate('backend/dotmailer_email_marketing/menuitem.tpl');
+        }
+    }
+
+    public function createPluginID()
+    {
+        $plugin_id = null;
+        $em = $this->Application()->Models();
+        $settings = $em->find('Shopware\CustomModels\DotmailerEmailMarketing\DotmailerEmailMarketing', 1);
+        
+        if ($settings !== null) {
+            $plugin_id = $settings->getPluginID();
+        }
+
+        if ($plugin_id === null) {
+            $dotmailer_email_marketing = new DotmailerEmailMarketing();
+
+            $length = 128;
+            $crypto_strong = true;
+            $dotmailer_email_marketing->setPluginID(bin2hex(openssl_random_pseudo_bytes($length, $crypto_strong)));
+
+            $em->persist($dotmailer_email_marketing);
+            $em->flush();
+        }
+    }
+
+    public function getPluginID()
+    {
+        require_once __DIR__ . '\Models\DotmailerEmailMarketing\DotmailerEmailMarketing.php';
+
+        $em = $this->Application()->Models();
+        $settings = $em->find('Shopware\CustomModels\DotmailerEmailMarketing\DotmailerEmailMarketing', 1);
+        
+        return $settings !== null ? $settings->getPluginID() : die();
+    }
+
+    public function addMenuItem()
+    {
+        $em = $this->Application()->Models();
+        $url = $em->find('Shopware\Models\Shop\Shop', 1)->getBasePath() . '/backend/dotmailer/connect';
 
         $this->createMenuItem(
             array(
             'label' => 'dotmailer Email Marketing',
-            'onclick' => 'window.open("https://my.dotmailer.com", "_blank");',
-            'class' => 'sprite-star',
+            'onclick' => 'window.open("' . $url . '", "_blank")',
+            'class' => 'sprite-dotmailer-email-marketing',
             'active' => 1,
             'parent' => $this->Menu()->findOneBy(['label' => 'Marketing'])
             )
         );
+    }
 
-        return array('success' => true, 'invalidateCache' => array('frontend', 'backend'));
+    /**
+     * Enable plugin method
+     *
+     * @return bool
+     */
+    public function enable()
+    {
+        $this->postToDotmailer('enable');
+        
+        return true;
+    }
+
+    /**
+     * Disable plugin method
+     *
+     * @return bool
+     */
+    public function disable()
+    {
+        $this->postToDotmailer('disable');
+        
+        return true;
+    }
+
+    public function postToDotmailer($action)
+    {
+        $url = self::getTrackingSiteUrl() .  '/e/shopware/' . $action;
+        $data = array(
+            'pluginid' => $this->getPluginID()
+        );
+
+        $post = curl_init($url);
+
+        curl_setopt($post, CURLOPT_POST, 1);
+        curl_setopt($post, CURLOPT_POSTFIELDS, http_build_query($data));
+
+        curl_exec($post);
+        curl_close($post);
     }
 
     /**
@@ -93,7 +207,7 @@ class Shopware_Plugins_Backend_dotmailerEmailMarketing_Bootstrap extends Shopwar
         $tool = new \Doctrine\ORM\Tools\SchemaTool($em);
 
         $classes = array(
-            $em->getClassMetadata('Shopware\CustomModels\dotmailerEmailMarketing\dotmailerEmailMarketing')
+            $em->getClassMetadata('Shopware\CustomModels\DotmailerEmailMarketing\DotmailerEmailMarketing')
         );
 
         try {
@@ -138,7 +252,7 @@ class Shopware_Plugins_Backend_dotmailerEmailMarketing_Bootstrap extends Shopwar
     public function registerMyComponents()
     {
         $this->Application()->Loader()->registerNamespace(
-            'Shopware\dotmailerEmailMarketing',
+            'Shopware\DotmailerEmailMarketing',
             $this->Path()
         );
     }
