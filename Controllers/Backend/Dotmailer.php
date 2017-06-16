@@ -17,6 +17,9 @@ class Shopware_Controllers_Backend_Dotmailer extends Shopware_Controllers_Backen
         $settings = $em->find('Shopware\CustomModels\DotmailerEmailMarketing\DotmailerEmailMarketing', 1);
 
         $plugin_id = $settings !== null ? $settings->getPluginID() : die();
+
+        $store_host = $store->getHost();
+        $store_base_path = $store->getBasePath();
         
         $isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ||
                    $_SERVER['SERVER_PORT'] == 443 ||
@@ -27,9 +30,9 @@ class Shopware_Controllers_Backend_Dotmailer extends Shopware_Controllers_Backen
         $connection_query = http_build_query(
             array(
                 'storename' => $store->getName(),
-                'storeurl' => $schema . $store->getHost() . $store->getBasePath(),
-                'bridgeurl' => $schema . $store->getHost() . $store->getBasePath() . '/bridge2cart/bridge.php',
-                'storeroot' => $_SERVER['DOCUMENT_ROOT'] . $store->getBasePath(),
+                'storeurl' => $schema . $store_host . $store_base_path,
+                'bridgeurl' => $schema . $store_host . $store_base_path . '/bridge2cart/bridge.php',
+                'storeroot' => $_SERVER['DOCUMENT_ROOT'] . $store_base_path,
                 'pluginid' => $plugin_id,
                 'timezone' => date_default_timezone_get())
         );
