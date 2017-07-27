@@ -21,8 +21,8 @@ class Shopware_Controllers_Backend_Dotmailer extends Shopware_Controllers_Backen
         $store_host = $store->getHost();
         $store_base_path = $store->getBasePath();
 
-        $store_root = DIRECTORY_SEPARATOR === "\\" ? 
-            str_replace('/', '\\', $_SERVER['DOCUMENT_ROOT'] . $store_base_path) : 
+        $store_root = DIRECTORY_SEPARATOR === "\\" ?
+            str_replace('/', '\\', $_SERVER['DOCUMENT_ROOT'] . $store_base_path) :
             $_SERVER['DOCUMENT_ROOT'] . $store_base_path;
         
         $isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ||
