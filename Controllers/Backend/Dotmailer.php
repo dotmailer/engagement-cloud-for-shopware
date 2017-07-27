@@ -20,6 +20,10 @@ class Shopware_Controllers_Backend_Dotmailer extends Shopware_Controllers_Backen
 
         $store_host = $store->getHost();
         $store_base_path = $store->getBasePath();
+
+        $store_root = DIRECTORY_SEPARATOR === "\\" ?
+            str_replace('/', '\\', $_SERVER['DOCUMENT_ROOT'] . $store_base_path) :
+            $_SERVER['DOCUMENT_ROOT'] . $store_base_path;
         
         $isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ||
                    $_SERVER['SERVER_PORT'] == 443 ||
@@ -31,7 +35,8 @@ class Shopware_Controllers_Backend_Dotmailer extends Shopware_Controllers_Backen
             array(
                 'storename' => $store->getName(),
                 'storeurl' => $schema . $store_host . $store_base_path,
-                'storeroot' => $_SERVER['DOCUMENT_ROOT'] . $store_base_path,
+                'bridgeurl' => $schema . $store_host . $store_base_path . '/bridge2cart/bridge.php',
+                'storeroot' => $store_root,
                 'pluginid' => $plugin_id,
                 'timezone' => date_default_timezone_get())
         );
