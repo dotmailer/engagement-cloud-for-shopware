@@ -31,7 +31,8 @@ class Shopware_Controllers_Backend_Dotmailer extends Shopware_Controllers_Backen
             array(
                 'storename' => $store->getName(),
                 'storeurl' => $schema . $store_host . $store_base_path,
-                'storeroot' => $_SERVER['DOCUMENT_ROOT'] . $store_base_path,
+                'bridgeurl' => $schema . $store_host . $store_base_path . '/bridge2cart/bridge.php',
+                'storeroot' => str_replace('/', '\\', $_SERVER['DOCUMENT_ROOT'] . $store_base_path),
                 'pluginid' => $plugin_id,
                 'timezone' => date_default_timezone_get())
         );
