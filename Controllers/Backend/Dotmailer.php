@@ -46,8 +46,6 @@ class Shopware_Controllers_Backend_Dotmailer extends Shopware_Controllers_Backen
 
     public function getWhitelistedCSRFActions()
     {
-        return [
-            'connect'
-        ];
+        return array('connect');
     }
 }

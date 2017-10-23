@@ -149,7 +149,7 @@ class Shopware_Plugins_Backend_DotmailerEmailMarketing_Bootstrap extends Shopwar
             'onclick' => 'window.open("' . $url . '", "_blank")',
             'class' => 'sprite-dotmailer-email-marketing',
             'active' => 1,
-            'parent' => $this->Menu()->findOneBy(['label' => 'Marketing'])
+            'parent' => $this->Menu()->findOneBy(array('label' => 'Marketing'))
             )
         );
     }
