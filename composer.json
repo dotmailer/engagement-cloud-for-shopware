@@ -1,5 +1,7 @@
 {
-    "require": {
+    "name": "dotmailer/dotmailer-for-shopware",
+    "version": "1.0.0",
+    "require-dev": {
         "squizlabs/php_codesniffer": "*"
     }
 }
