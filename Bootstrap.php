@@ -115,7 +115,7 @@ class Shopware_Plugins_Backend_DotmailerEmailMarketing_Bootstrap extends Shopwar
 
     public function getPluginID()
     {
-        require_once __DIR__ . '\Models\DotmailerEmailMarketing\DotmailerEmailMarketing.php';
+        require_once __DIR__ . '/Models/dotmailerEmailMarketing/dotmailerEmailMarketing.php';
 
         $em = $this->Application()->Models();
         $settings = $em->find('Shopware\CustomModels\DotmailerEmailMarketing\DotmailerEmailMarketing', 1);
@@ -186,6 +186,8 @@ class Shopware_Plugins_Backend_DotmailerEmailMarketing_Bootstrap extends Shopwar
      */
     protected function updateSchema()
     {
+        require_once __DIR__ . '/Models/dotmailerEmailMarketing/dotmailerEmailMarketing.php';
+
         $this->registerCustomModels();
 
         $em = $this->Application()->Models();
