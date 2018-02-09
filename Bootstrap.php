@@ -186,6 +186,8 @@ class Shopware_Plugins_Backend_DotmailerEmailMarketing_Bootstrap extends Shopwar
      */
     protected function updateSchema()
     {
+        require_once __DIR__ . '/Models/dotmailerEmailMarketing/dotmailerEmailMarketing.php';
+
         $this->registerCustomModels();
 
         $em = $this->Application()->Models();
