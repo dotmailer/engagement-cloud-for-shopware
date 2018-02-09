@@ -12,6 +12,8 @@ class Shopware_Controllers_Backend_Dotmailer extends Shopware_Controllers_Backen
 
     public function connectAction()
     {
+        require_once dirname(__FILE__, 3) . '/Models/dotmailerEmailMarketing/dotmailerEmailMarketing.php';
+
         $em = $this->getManager();
         $store = $em->find('Shopware\Models\Shop\Shop', 1);
         $settings = $em->find('Shopware\CustomModels\DotmailerEmailMarketing\DotmailerEmailMarketing', 1);
