@@ -1,21 +1,23 @@
 {
     "label": {
-        "de": "dotmailer Email Marketing",
-        "en": "dotmailer Email Marketing"
+        "de": "dotdigital Engagement Cloud",
+        "en": "dotdigital Engagement Cloud"
     },
     "copyright": "Copyright (c) 2017 dotDigital Group PLC",
     "license": "MIT",
-    "link": "https://www.dotmailer.com/",
-    "author": "dotmailer",
+    "link": "https://www.dotdigital.com/",
+    "author": "dotdigital",
 
-    "currentVersion": "1.0.0",
+    "currentVersion": "1.0.1",
 
     "changelog": {
         "de": {
-            "1.0.0": "Erstveröffentlichung"
+            "1.0.0": "Erstveröffentlichung",
+            "1.0.1": "Rebranding"
         },
         "en": {
-            "1.0.0": "First release"
+            "1.0.0": "First release",
+            "1.0.1": "Rebrand"
         }
     },
 
