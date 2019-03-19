@@ -9,7 +9,7 @@ class Shopware_Plugins_Backend_DotmailerEmailMarketing_Bootstrap extends Shopwar
 {
     public static function getWebAppUrl()
     {
-        return 'https://login.dotmailer.com';
+        return 'https://login.dotdigital.com';
     }
 
     public static function getTrackingSiteUrl()
