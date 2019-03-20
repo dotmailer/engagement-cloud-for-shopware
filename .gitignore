@@ -1,2 +1,5 @@
 .vscode/
 vendor/
+.settings/org.eclipse.wst.common.project.facet.core.xml
+.project
+.buildpath
