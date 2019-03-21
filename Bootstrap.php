@@ -9,7 +9,7 @@ class Shopware_Plugins_Backend_DotmailerEmailMarketing_Bootstrap extends Shopwar
 {
     public static function getWebAppUrl()
     {
-        return 'https://login.dotmailer.com';
+        return 'https://login.dotdigital.com';
     }
 
     public static function getTrackingSiteUrl()
@@ -29,7 +29,7 @@ class Shopware_Plugins_Backend_DotmailerEmailMarketing_Bootstrap extends Shopwar
 
     public function getLabel()
     {
-        return 'dotmailer Email Marketing';
+        return 'dotdigital Engagement Cloud';
     }
 
     public function uninstall()
@@ -130,7 +130,7 @@ class Shopware_Plugins_Backend_DotmailerEmailMarketing_Bootstrap extends Shopwar
 
         $this->createMenuItem(
             array(
-            'label' => 'dotmailer Email Marketing',
+            'label' => 'dotdigital Engagement Cloud',
             'onclick' => 'window.open("' . $url . '", "_blank")',
             'class' => 'sprite-dotmailer-email-marketing',
             'active' => 1,
