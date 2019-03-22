@@ -2,7 +2,7 @@
  
 ## Benefits – what you get with dotdigital Engagement Cloud
  - Drive higher revenue with targeted marketing activities
- - Save time by automatizing processes 
+ - Save time by automating processes 
  - Communicate effectively with powerful personalization and segmentation features
  - Be omnipresent by integrating the communication channels that matter most to your customers – E-mail, SMS, push notifications, social media and much more.
  - Small, medium or enterprise – everyone benefits from the Engagement Cloud. We are proud to be working with some of the leading merchants of the industry.
@@ -58,9 +58,6 @@ For more detailed information on installation, find it at (https://support.dotdi
 
 # 1.0.0
  - First release
-## Upgrade Notice
-If you have already installed this plugin, a message will pop up in the admin area of your WordPress account informing you that a new version is available.
-Simply update from there.
 
 ## Contribution
 You are welcome to contribute to Engagement Cloud for Shopware! You can either:
@@ -72,7 +69,7 @@ You are welcome to contribute to Engagement Cloud for Shopware! You can either:
 
 MIT License
 
-Copyright (c) 2017 dotDigital Group PLC
+Copyright (c) dotDigital Group PLC
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
