@@ -1,4 +1,4 @@
-# Engagement Clould for Shopware
+# Engagement Cloud for Shopware
  
 ## Benefits – what you get with dotdigital Engagement Cloud
  - Drive higher revenue with targeted marketing activities
@@ -33,7 +33,7 @@ Send, receive and engage with your clients and prospects in a scalable format. A
  - Social Media 
  - Google Ads
  - Apps (Android, iOS)
- - Landingpages and more!
+ - Landing pages and more!
 
 ## Installation
 
@@ -46,7 +46,7 @@ Log into your Shopware backend and follow these steps:
 4. Login to Engagement Cloud
    - You'll see the 'Almost there!' message, outlining the three final steps to complete:
    - Download bridge file (See disclaimer above)
-   - Unzip and place in your shopware root folder
+   - Unzip and place in your Shopware root folder
    - Return to Engagement Cloud > Settings > Shopware and click "test connection" 
 The store should be now connected and Engagement Cloud will start syncing your data automatically. For more detailed information on installation, find it on our help center.
 
@@ -61,7 +61,7 @@ For more detailed information on installation, find it at (https://support.dotdi
 
 ## Contribution
 You are welcome to contribute to Engagement Cloud for Shopware! You can either:
- - Report a bug: create a GitHub issue including description, repro steps, Shopware and connector version
+ - Report a bug: create a GitHub issue including description, repro steps, Shopware, bridge and plugin version
  - Fix a bug: please clone this repo and submit your Pull Request
  - Request a feature on our [community forum](https://support.dotdigital.com/hc/en-gb/community/topics/200432508-Feedback-and-feature-requests)
 
@@ -69,7 +69,7 @@ You are welcome to contribute to Engagement Cloud for Shopware! You can either:
 
 MIT License
 
-Copyright (c) dotDigital Group PLC
+Copyright (c) dotdigital Group PLC
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
