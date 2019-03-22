@@ -3,21 +3,19 @@
         "de": "dotdigital Engagement Cloud",
         "en": "dotdigital Engagement Cloud"
     },
-    "copyright": "Copyright (c) 2017 dotDigital Group PLC",
+    "copyright": "Copyright (c) 2017 dotdigital Group PLC",
     "license": "MIT",
-    "link": "https://www.dotmailer.com/",
+    "link": "https://www.dotdigital.com/",
     "author": "dotdigital",
 
     "currentVersion": "1.0.0",
 
     "changelog": {
         "de": {
-            "1.0.0": "Erstveröffentlichung",
-			"1.0.1": "Rebranding"
+            "1.0.0": "Erstveröffentlichung"
         },
         "en": {
-            "1.0.0": "First release",
-			"1.0.1": "Rebranding"
+            "1.0.0": "First release"
         }
     },
 
