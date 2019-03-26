@@ -58,7 +58,9 @@ For more detailed information on installation, find it at (https://support.dotdi
 
 # 1.0.0
  - First release
-
+# 1.0.1
+ - Rebranding
+ 
 ## Contribution
 You are welcome to contribute to Engagement Cloud for Shopware! You can either:
  - Report a bug: create a GitHub issue including description, repro steps, Shopware, bridge and plugin version
