@@ -125,13 +125,10 @@ class Shopware_Plugins_Backend_DotmailerEmailMarketing_Bootstrap extends Shopwar
 
     public function addMenuItem()
     {
-        $em = $this->Application()->Models();
-        $url = $em->find('Shopware\Models\Shop\Shop', 1)->getBasePath() . '/backend/dotmailer/connect';
-
         $this->createMenuItem(
             array(
             'label' => 'dotdigital Engagement Cloud',
-            'onclick' => 'window.open("' . $url . '", "_blank")',
+            'onclick' => 'window.open("/backend/dotmailer/connect", "_blank")',
             'class' => 'sprite-dotmailer-email-marketing',
             'active' => 1,
             'parent' => $this->Menu()->findOneBy(array('label' => 'Marketing'))
