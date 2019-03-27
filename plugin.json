@@ -8,16 +8,18 @@
     "link": "https://www.dotdigital.com/",
     "author": "dotdigital",
 
-    "currentVersion": "1.0.1",
+    "currentVersion": "1.0.2",
 
     "changelog": {
         "de": {
             "1.0.0": "Erstveröffentlichung",
-			"1.0.1": "Rebranding"
+			"1.0.1": "Rebranding",
+			"1.0.2": "Verwenden Sie die relative URL im Menüelement \"Marketing\""
         },
         "en": {
             "1.0.0": "First release",
-			"1.0.1": "Rebranding"
+			"1.0.1": "Rebranding",
+			"1.0.2": "Use relative URL in \"Marketing\" menu item"
         }
     },
 

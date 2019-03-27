@@ -60,6 +60,8 @@ For more detailed information on installation, find it at (https://support.dotdi
  - First release
 # 1.0.1
  - Rebranding
+# 1.0.2
+ - Use relative URL in "Marketing" menu item
  
 ## Contribution
 You are welcome to contribute to Engagement Cloud for Shopware! You can either:

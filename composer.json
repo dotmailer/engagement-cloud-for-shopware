@@ -1,6 +1,6 @@
 {
 	"name" : "dotmailer/engagement-cloud-for-shopware",
-	"version" : "1.0.1",
+	"version" : "1.0.2",
 	"require-dev" : {
 		"squizlabs/php_codesniffer" : "*"
 	}
